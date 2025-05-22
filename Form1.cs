@@ -39,8 +39,15 @@ namespace _2Laba
         }
         private void readData_Click(object sender, EventArgs e)
         {
-            basePath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
-            fullPath = Path.Combine(basePath, "data.txt");
+            if (textBox1.Text == "")
+            {
+                basePath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+                fullPath = Path.Combine(basePath, "data.txt");
+            }
+            else 
+            { 
+                fullPath = textBox1.Text;
+            }
             if (!File.Exists(fullPath))
             {
                 label1.Text = $"Файл не найден: {fullPath}";

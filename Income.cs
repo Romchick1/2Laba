@@ -22,5 +22,5 @@ namespace _2Laba
         {
             return $"income {Source} {Date:dd.MM.yyyy} {Summ}";
         }
-    }
+    }//
 }

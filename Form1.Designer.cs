@@ -51,14 +51,15 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(28, 18);
+            this.textBox1.Location = new System.Drawing.Point(28, 12);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(290, 20);
             this.textBox1.TabIndex = 1;
+            this.textBox1.Text = "C:\\Users\\shvet\\source\\repos\\data.txt";
             // 
             // readData
             // 
-            this.readData.Location = new System.Drawing.Point(337, 13);
+            this.readData.Location = new System.Drawing.Point(324, 9);
             this.readData.Name = "readData";
             this.readData.Size = new System.Drawing.Size(86, 25);
             this.readData.TabIndex = 2;
@@ -69,14 +70,14 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(442, 18);
+            this.label1.Location = new System.Drawing.Point(25, 43);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(0, 13);
             this.label1.TabIndex = 3;
             // 
             // Adding
             // 
-            this.Adding.Location = new System.Drawing.Point(477, 43);
+            this.Adding.Location = new System.Drawing.Point(454, 44);
             this.Adding.Name = "Adding";
             this.Adding.Size = new System.Drawing.Size(125, 20);
             this.Adding.TabIndex = 4;
@@ -86,7 +87,7 @@
             // 
             // Remove
             // 
-            this.Remove.Location = new System.Drawing.Point(651, 43);
+            this.Remove.Location = new System.Drawing.Point(625, 43);
             this.Remove.Name = "Remove";
             this.Remove.Size = new System.Drawing.Size(123, 20);
             this.Remove.TabIndex = 5;
@@ -96,7 +97,7 @@
             // 
             // AddBox
             // 
-            this.AddBox.Location = new System.Drawing.Point(477, 17);
+            this.AddBox.Location = new System.Drawing.Point(429, 12);
             this.AddBox.Name = "AddBox";
             this.AddBox.Size = new System.Drawing.Size(297, 20);
             this.AddBox.TabIndex = 6;
