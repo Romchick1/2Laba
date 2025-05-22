@@ -94,20 +94,21 @@ namespace _2Laba
             //listIncomes.SelectedItems.Clear();
             foreach (ListViewItem eachItem in listIncomes.SelectedItems)
             {
-                listIncomes.Items.Remove(eachItem);
-                listNotIncomes.Items.Remove(eachItem);
-                if (eachItem.Text.StartsWith("income"))
-                {
+                
+               
+              
                     var income = new Income();
                     income.GetData(eachItem.Text);
                     incomes.Remove(income);
-                }
-                else
-                {
-                    var notIncome = new NotIncome(eachItem.Text);
-                    notIncomes.Remove(notIncome);
-                }
+                    listIncomes.Items.Remove(eachItem);
+
                 
+            }
+            foreach (ListViewItem item in listNotIncomes.SelectedItems)
+            {
+                var notIncome = new NotIncome(item.Text);
+                notIncomes.Remove(notIncome);
+                listNotIncomes.Items.Remove(item);
             }
         }
     }

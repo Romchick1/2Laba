@@ -20,7 +20,7 @@ namespace _2Laba
 
         public override string ToString()
         {
-            return $"income — Дата: {Date:dd.MM.yyyy}, Источник: {Source}, Сумма: {Summ}";
+            return $"income {Source} {Date:dd.MM.yyyy} {Summ}";
         }
     }
 }
