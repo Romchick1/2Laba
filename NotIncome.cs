@@ -1,17 +1,31 @@
-﻿namespace _2Laba
+﻿namespace Laba2
 {
-    class NotIncome
+    public class NotIncome
     {
         public string Data { get; }
 
-        public NotIncome(string str)
+        public NotIncome(string data)
         {
-            Data = str;
+            Data = data;
         }
 
         public override string ToString()
         {
             return Data;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is NotIncome other)
+            {
+                return Data == other.Data;
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Data?.GetHashCode() ?? 0;
         }
     }
 }

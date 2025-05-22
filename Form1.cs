@@ -1,122 +1,156 @@
-﻿using _2Laba;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection.Emit;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace _2Laba
+namespace Laba2
 {
     public partial class Form1 : Form
     {
+        private readonly DataManager data_manager_;
+
         public Form1()
         {
             InitializeComponent();
+            data_manager_ = new DataManager();
         }
 
-        List<Income> incomes = new List<Income>();
-        List<NotIncome> notIncomes = new List<NotIncome>();
-
-        // Формирование пути к файлу
-        string basePath;
-        string fullPath;
-
-
-       private void listIncomes_SelectedIndexChanged(object sender, EventArgs e)
+        // Handles the click event for the "Read Data" button.
+        private void ReadDataClick(object sender, EventArgs e)
         {
-
-       }
-
-        private void Adding_Func(string str)
-        {
-
+            string file_path = GetFilePath();
+            if (!data_manager_.LoadFromFile(file_path))
+            {
+                ShowError($"File not found: {file_path}");
+                return;
+            }
+            UpdateLists();
         }
-        private void readData_Click(object sender, EventArgs e)
+
+        // Handles the click event for the "Add Item" button.
+        private void AddItemClick(object sender, EventArgs e)
         {
-            if (textBox1.Text == "")
+            string input = AddBox.Text.Trim();
+            if (string.IsNullOrEmpty(input))
             {
-                basePath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
-                fullPath = Path.Combine(basePath, "data.txt");
-            }
-            else 
-            { 
-                fullPath = textBox1.Text;
-            }
-            if (!File.Exists(fullPath))
-            {
-                label1.Text = $"Файл не найден: {fullPath}";
+                ShowError("Input cannot be empty.");
                 return;
             }
 
-            using (var reader = new StreamReader(fullPath))
+            if (!data_manager_.AddItem(input))
             {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    if (line.StartsWith("income"))
-                    {
-                        var income = new Income();
-                        income.GetData(line);
-                        incomes.Add(income);
-                        listIncomes.Items.Add(income.ToString());
-                        Console.WriteLine(income);
-                    }
-                    else
-                    {
-                        var notIncome = new NotIncome(line);
-                        notIncomes.Add(notIncome);
-                        listNotIncomes.Items.Add(notIncome.ToString());
-                    }
-                }
+                ShowError("Invalid input format.");
+                return;
             }
+            UpdateLists();
+            AddBox.Clear();
+        }
+
+        // Handles the click event for the "Remove Selected Item" button.
+        private void RemoveSelectedItemClick(object sender, EventArgs e)
+        {
+            bool items_removed = false;
+            foreach (ListViewItem item in listIncomes.SelectedItems)
+            {
+                data_manager_.RemoveIncome(item.Text);
+                items_removed = true;
+            }
+            foreach (ListViewItem item in listNotIncomes.SelectedItems)
+            {
+                data_manager_.RemoveNotIncome(item.Text);
+                items_removed = true;
+            }
+
+            if (!items_removed)
+            {
+                ShowError("No items selected.");
+                return;
+            }
+            UpdateLists();
+        }
+
+        // Returns the file path from textBox1 or the default path.
+        private string GetFilePath()
+        {
+            if (string.IsNullOrEmpty(textBox1.Text))
+            {
+                return DataManager.GetDefaultFilePath();
+            }
+            return textBox1.Text;
+        }
+
+        // Updates the ListView controls with current data.
+        private void UpdateLists()
+        {
+            listIncomes.Items.Clear();
+            listNotIncomes.Items.Clear();
+
+            foreach (var income in data_manager_.GetIncomes())
+            {
+                listIncomes.Items.Add(income.ToString());
+            }
+            foreach (var not_income in data_manager_.GetNotIncomes())
+            {
+                listNotIncomes.Items.Add(not_income.ToString());
+            }
+        }
+
+        // Displays an error message to the user.
+        private void ShowError(string message)
+        {
+            label1.Text = message;
+        }
+
+        private void readData_Click(object sender, EventArgs e)
+        {
+            string file_path = GetFilePath();
+            if (!data_manager_.LoadFromFile(file_path))
+            {
+                ShowError($"File not found: {file_path}");
+                return;
+            }
+            UpdateLists();
         }
 
         private void Adding_Click(object sender, EventArgs e)
         {
-            if (AddBox.Text.StartsWith("income"))
+            string input = AddBox.Text.Trim();
+            if (string.IsNullOrEmpty(input))
             {
-                var income = new Income();
-                income.GetData(AddBox.Text);
-                incomes.Add(income);
-                listIncomes.Items.Add(income.ToString());
-                Console.WriteLine(income);
+                ShowError("Input cannot be empty.");
+                return;
             }
-            else
+
+            if (!data_manager_.AddItem(input))
             {
-                var notIncome = new NotIncome(AddBox.Text);
-                notIncomes.Add(notIncome);
-                listNotIncomes.Items.Add(notIncome.ToString());
+                ShowError("Invalid input format.");
+                return;
             }
-            
+            UpdateLists();
+            AddBox.Clear();
         }
 
         private void Remove_Click(object sender, EventArgs e)
         {
-            //listIncomes.SelectedItems.Clear();
-            foreach (ListViewItem eachItem in listIncomes.SelectedItems)
+            bool items_removed = false;
+            foreach (ListViewItem item in listIncomes.SelectedItems)
             {
-                
-               
-              
-                    var income = new Income();
-                    income.GetData(eachItem.Text);
-                    incomes.Remove(income);
-                    listIncomes.Items.Remove(eachItem);
-
-                
+                data_manager_.RemoveIncome(item.Text);
+                items_removed = true;
             }
             foreach (ListViewItem item in listNotIncomes.SelectedItems)
             {
-                var notIncome = new NotIncome(item.Text);
-                notIncomes.Remove(notIncome);
-                listNotIncomes.Items.Remove(item);
+                data_manager_.RemoveNotIncome(item.Text);
+                items_removed = true;
             }
+
+            if (!items_removed)
+            {
+                ShowError("No items selected.");
+                return;
+            }
+            UpdateLists();
         }
     }
 }

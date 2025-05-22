@@ -1,4 +1,4 @@
-﻿namespace _2Laba
+﻿namespace Laba2
 {
     partial class Form1
     {
@@ -47,7 +47,6 @@
             this.listIncomes.TabIndex = 0;
             this.listIncomes.UseCompatibleStateImageBehavior = false;
             this.listIncomes.View = System.Windows.Forms.View.List;
-            this.listIncomes.SelectedIndexChanged += new System.EventHandler(this.listIncomes_SelectedIndexChanged);
             // 
             // textBox1
             // 
