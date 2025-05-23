@@ -16,61 +16,8 @@ namespace Laba2
             data_manager_ = new DataManager();
         }
 
-        // Handles the click event for the "Read Data" button.
-        private void ReadDataClick(object sender, EventArgs e)
-        {
-            string file_path = GetFilePath();
-            if (!data_manager_.LoadFromFile(file_path))
-            {
-                ShowError($"File not found: {file_path}");
-                return;
-            }
-            UpdateLists();
-        }
 
-        // Handles the click event for the "Add Item" button.
-        private void AddItemClick(object sender, EventArgs e)
-        {
-            string input = AddBox.Text.Trim();
-            if (string.IsNullOrEmpty(input))
-            {
-                ShowError("Input cannot be empty.");
-                return;
-            }
-
-            if (!data_manager_.AddItem(input))
-            {
-                ShowError("Invalid input format.");
-                return;
-            }
-            UpdateLists();
-            AddBox.Clear();
-        }
-
-        // Handles the click event for the "Remove Selected Item" button.
-        private void RemoveSelectedItemClick(object sender, EventArgs e)
-        {
-            bool items_removed = false;
-            foreach (ListViewItem item in listIncomes.SelectedItems)
-            {
-                data_manager_.RemoveIncome(item.Text);
-                items_removed = true;
-            }
-            foreach (ListViewItem item in listNotIncomes.SelectedItems)
-            {
-                data_manager_.RemoveNotIncome(item.Text);
-                items_removed = true;
-            }
-
-            if (!items_removed)
-            {
-                ShowError("No items selected.");
-                return;
-            }
-            UpdateLists();
-        }
-
-        // Returns the file path from textBox1 or the default path.
+        // Получает путь к файлу
         private string GetFilePath()
         {
             if (string.IsNullOrEmpty(textBox1.Text))
@@ -80,7 +27,7 @@ namespace Laba2
             return textBox1.Text;
         }
 
-        // Updates the ListView controls with current data.
+        // Обновляет содержимое ListView
         private void UpdateLists()
         {
             listIncomes.Items.Clear();
@@ -96,41 +43,45 @@ namespace Laba2
             }
         }
 
-        // Displays an error message to the user.
+        // Вывод ошибок
         private void ShowError(string message)
         {
             label1.Text = message;
         }
 
+        // Обработчик для кнопки Чтения данных из файла
         private void readData_Click(object sender, EventArgs e)
         {
             string file_path = GetFilePath();
             if (!data_manager_.LoadFromFile(file_path))
             {
-                ShowError($"File not found: {file_path}");
+                ShowError($"Файл не найден {file_path}");
                 return;
             }
             UpdateLists();
         }
 
+        // Обработчик для кнопки добавления item
         private void Adding_Click(object sender, EventArgs e)
         {
             string input = AddBox.Text.Trim();
             if (string.IsNullOrEmpty(input))
             {
-                ShowError("Input cannot be empty.");
+                ShowError("Введите данные");
                 return;
             }
 
             if (!data_manager_.AddItem(input))
             {
-                ShowError("Invalid input format.");
+                ShowError("Неверный формат входных данных");
                 return;
             }
             UpdateLists();
             AddBox.Clear();
         }
 
+
+        // Обработчик для кнопки удаления
         private void Remove_Click(object sender, EventArgs e)
         {
             bool items_removed = false;
@@ -147,7 +98,7 @@ namespace Laba2
 
             if (!items_removed)
             {
-                ShowError("No items selected.");
+                ShowError("Сначала выберите что-нибуть");
                 return;
             }
             UpdateLists();
