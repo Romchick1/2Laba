@@ -9,7 +9,7 @@ namespace Laba2
         public string Source { get; set; }
         public int Sum { get; set; }
 
-        // Parses the input string into Income properties.
+        // Преобразует входную строку в поля Income.
         public bool TryParse(string input)
         {
             try
@@ -49,8 +49,8 @@ namespace Laba2
         public override int GetHashCode()
         {
             unchecked
-            { // Use unchecked to handle arithmetic overflow
-                int hash = 17; // Prime number as initial value
+            { // Используем "unchecked" чтобы отслеживать переполнение
+                int hash = 17; // Простое число в качестве начального значения
                 hash = hash * 23 + (Source?.GetHashCode() ?? 0);
                 hash = hash * 23 + Date.GetHashCode();
                 hash = hash * 23 + Sum.GetHashCode();
